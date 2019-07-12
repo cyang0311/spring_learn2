@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="user" class="Bean.User">
+        <property name="uName" value="123"/>
+        <property name="pwd" value="321"/>
+
+    </bean>
+
+    <!--<bean id="fac" class="PeopleFactory"></bean>-->
+    <!--<bean id="peo1" factory-bean="fac" factory-method="getInstance"/>-->
+
+    <!--<bean id="peo2" class="PeopleFactory" factory-method="getInstance"/>-->
+<!--获取数据库连接-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/spring_mvctest"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+
+
+    <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="mapper"/>
+        <property name="sqlSessionFactory" ref="factory"/>
+    </bean>
+
+    <bean id="UserService" class="Service.UserServiceImpl">
+        <property name="userMapper" ref="userMapper"></property>
+    </bean>
+</beans>
